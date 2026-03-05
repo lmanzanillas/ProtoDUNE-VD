@@ -1,0 +1,6 @@
+#Set the position of the collimator, a values between -37 and 37 mm (size of samples)
+#Choise of source type: 0 Cs-137; 1 Bi-207; 2 Sr-90; 3 e-
+/run/initialize
+/ULALAP/gun/sourceType 0
+
+/run/beamOn 10000
