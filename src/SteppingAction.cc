@@ -51,10 +51,12 @@ void SteppingAction::UserSteppingAction(const G4Step* theStep) {
     G4int pdgCode = particleDef->GetPDGEncoding();
     G4double energy = theTrack->GetKineticEnergy();
 
+    //G4cout<<"thePrePV->GetName(): "<<thePrePV->GetName()<<G4endl;
+
     // Check conditions for specific processing
     if (theTrack->GetCurrentStepNumber() == 1 &&
         theTrack->GetCreatorProcess() &&
-        thePrePV && thePrePV->GetName() == "target_1" &&
+        thePrePV && thePrePV->GetName() == "volTPCActive_PV" &&
         particleDef->GetParticleType() == "nucleus" &&
         particleDef->GetParticleSubType() == "generic") {
 
@@ -130,7 +132,7 @@ void SteppingAction::UserSteppingAction(const G4Step* theStep) {
     }
 
     // Store energy deposition for target_1
-    if (thePrePV && thePrePV->GetName() == "target_1") {
+    if (thePrePV && thePrePV->GetName() == "volTPCActive_PV") {
         G4double time_dep = theStep->GetPostStepPoint()->GetGlobalTime() / us;
         fEventAction->AddInfo(
             thePrePoint->GetPosition().x() / cm,

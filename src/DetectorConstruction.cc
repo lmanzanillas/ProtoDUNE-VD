@@ -398,7 +398,30 @@ Defines detector sensitivities and properties.
 */
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
-	fParser.Read("../input_files/protodunevd_v5_ggd.gdml");
+   fParser.Read("../input_files/protodunevd_v5_ggd.gdml");
 
-	return fParser.GetWorldVolume();
+   G4LogicalVolume* tpcLV = G4LogicalVolumeStore::GetInstance()->GetVolume("volSteelSupport");
+   if(tpcLV) {
+    auto visTpc = new G4VisAttributes(G4Colour::Blue());
+    visTpc->SetVisibility(true);
+    tpcLV->SetVisAttributes(visTpc);
+   }
+
+   G4LogicalVolume* cryoLV = G4LogicalVolumeStore::GetInstance()->GetVolume("volFieldShaperSlim");
+   if(cryoLV) {
+    auto visCryo = new G4VisAttributes(G4Colour::Red());
+    visCryo->SetVisibility(true);
+    visCryo->SetForceWireframe(true);  // optional
+    cryoLV->SetVisAttributes(visCryo);
+   }
+
+   for(auto lv : *G4LogicalVolumeStore::GetInstance()) {
+     if(lv->GetName() != "volSteelSupport" && lv->GetName() != "volFieldShaperSlim") {
+        auto invis = new G4VisAttributes();
+        invis->SetVisibility(false);
+        lv->SetVisAttributes(invis);
+     }
+   }
+
+   return fParser.GetWorldVolume();
 } 
