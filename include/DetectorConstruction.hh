@@ -97,6 +97,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     void Belts();
     void ShieldingFloor();
 
+  private:
+    G4GDMLParser fParser;
+
   public:
     //const G4VPhysicalVolume* GetWorld() {return physicPenCryostatBox;};
     const G4VPhysicalVolume* GetWorld() {return physicWorldBox;};
