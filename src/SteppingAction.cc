@@ -165,13 +165,13 @@ void SteppingAction::UserSteppingAction(const G4Step* theStep) {
    
    // Case 1: Particle crosses into target_1
    if (postPoint->GetStepStatus() == fGeomBoundary &&
-       postVol && postVol->GetName() == "target_1")
+       postVol && postVol->GetName() == "volTPCActive_PV")
    {
        isInTarget1 = true;
    }
    /*// Case 2: Particle born inside target_1
    else if (track->GetCurrentStepNumber() == 1 &&
-            preVol && preVol->GetName() == "target_1")
+            preVol && preVol->GetName() == "volTPCActive_PV")
    {
        isInTarget1 = true;
    }
