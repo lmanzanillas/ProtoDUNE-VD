@@ -184,7 +184,7 @@ void PrimaryGeneratorAction::GenerateDirection(G4ThreeVector new_direction)
   switch (fSourceDirectionType) {
 	  //Fixed direction taking as input a vector ux,uy,uz
 	  //normalization is applied in case the vector is not unitary
-	 case 0:
+	 case 0: {
 		  px = new_direction.x();
 	  	  py = new_direction.y();
 	  	  pz = new_direction.z();
@@ -196,9 +196,10 @@ void PrimaryGeneratorAction::GenerateDirection(G4ThreeVector new_direction)
 		  direction.setY(py);
 		  direction.setZ(pz);
 		  break;
+		}
 
 	  //Random direction, direction is randomly generated in all directions
-	  case 1:
+	  case 1: {
 		  Phi = MinPhi + (MaxPhi - MinPhi) * rndm2; 
   		  sinphi = std::sin(Phi);
   		  cosphi = std::cos(Phi);
@@ -216,10 +217,10 @@ void PrimaryGeneratorAction::GenerateDirection(G4ThreeVector new_direction)
   		  direction.setY(py);
   		  direction.setZ(pz);
 		  break;
+		}
 
-	  //Like option 0, but sampling a random direction around the given vector
 	  //This should correspond to a 2pi half sphere direction
-	  case 2:
+	  case 2: {
 		  G4ThreeVector zAxis(0, 0, 1); // Default direction
 		  G4ThreeVector normAxis = new_direction.unit();
 
@@ -238,6 +239,30 @@ void PrimaryGeneratorAction::GenerateDirection(G4ThreeVector new_direction)
 		  direction = localDir.rotateUz(normAxis);
 		  //G4cout<<"direction: "<<px<<" "<<py<<" "<<pz<<G4endl;
 		  break;
+  		}
+	  //Like option 0, but sampling a random direction around the given vector
+	  case 3: {
+		  // Beam axis
+		  G4ThreeVector normAxis = new_direction.unit();
+		  // Beam divergence (standard deviation in radians)
+		  G4double sigma = 2.0 * mrad;  // adjust to your collimation
+		  // Sample Gaussian angular deviations
+		  G4double thetaX = G4RandGauss::shoot(0., sigma);
+		  G4double thetaY = G4RandGauss::shoot(0., sigma);
+
+		  // Construct direction in local frame (Z = beam axis)
+		  G4double px = thetaX;
+		  G4double py = thetaY;
+	          G4double pz = 1.0;
+	          // Normalize
+	          G4ThreeVector localDir(px, py, pz);
+		  localDir = localDir.unit();
+		  // Rotate to desired axis
+		  G4ThreeVector direction = localDir.rotateUz(normAxis);
+
+		  break;
+		}
+
   }
 }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
