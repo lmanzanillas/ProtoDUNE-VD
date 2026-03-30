@@ -245,7 +245,7 @@ void PrimaryGeneratorAction::GenerateDirection(G4ThreeVector new_direction)
 		  // Beam axis
 		  G4ThreeVector normAxis = new_direction.unit();
 		  // Beam divergence (standard deviation in radians)
-		  G4double sigma = 2.0 * mrad;  // adjust to your collimation
+		  G4double sigma = 200.0 * mrad;  //aprox 5 degrees, adjust to your collimation
 		  // Sample Gaussian angular deviations
 		  G4double thetaX = G4RandGauss::shoot(0., sigma);
 		  G4double thetaY = G4RandGauss::shoot(0., sigma);
