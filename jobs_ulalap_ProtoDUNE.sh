@@ -1,5 +1,5 @@
 #!/bin/sh
-dir_type=0
+dir_type=3
 P_LIST=QGSP_BIC_HP
 for job_number in {1..20..1} 
 do

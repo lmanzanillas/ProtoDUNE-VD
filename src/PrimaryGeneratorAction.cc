@@ -245,7 +245,7 @@ void PrimaryGeneratorAction::GenerateDirection(G4ThreeVector new_direction)
 		  // Beam axis
 		  G4ThreeVector normAxis = new_direction.unit();
 		  // Beam divergence (standard deviation in radians)
-		  G4double sigma = 200.0 * mrad;  //aprox 5 degrees, adjust to your collimation
+		  G4double sigma = 500.0 * mrad;  //aprox 5 degrees, adjust to your collimation
 		  // Sample Gaussian angular deviations
 		  G4double thetaX = G4RandGauss::shoot(0., sigma);
 		  G4double thetaY = G4RandGauss::shoot(0., sigma);
@@ -467,7 +467,7 @@ void PrimaryGeneratorAction::SetSourceType(G4int newType)
 void PrimaryGeneratorAction::SetSourceDirectionType(G4int newType)
 {
 
-	if (newType <= 2 && newType >= 0)
+	if (newType <= 3 && newType >= 0)
 	{
 		fSourceDirectionType = newType;
 	}
