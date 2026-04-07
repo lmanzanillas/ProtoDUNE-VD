@@ -66,6 +66,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* det)
 	MinTheta = 0.;
 	MaxTheta = pi;
 	MinPhi = 0.;
+	SigmaBeam = 100. * mrad;
 	MaxPhi = twopi;
         size_source_x = 50.;
         size_source_y = 10.;
@@ -245,7 +246,7 @@ void PrimaryGeneratorAction::GenerateDirection(G4ThreeVector new_direction)
 		  // Beam axis
 		  G4ThreeVector normAxis = new_direction.unit();
 		  // Beam divergence (standard deviation in radians)
-		  G4double sigma = 500.0 * mrad;  //aprox 5 degrees, adjust to your collimation
+		  G4double sigma = SigmaBeam;  //adjust to your beam collimation
 		  // Sample Gaussian angular deviations
 		  G4double thetaX = G4RandGauss::shoot(0., sigma);
 		  G4double thetaY = G4RandGauss::shoot(0., sigma);
@@ -258,7 +259,7 @@ void PrimaryGeneratorAction::GenerateDirection(G4ThreeVector new_direction)
 	          G4ThreeVector localDir(px, py, pz);
 		  localDir = localDir.unit();
 		  // Rotate to desired axis
-		  G4ThreeVector direction = localDir.rotateUz(normAxis);
+		  direction = localDir.rotateUz(normAxis);
 
 		  break;
 		}
@@ -450,6 +451,9 @@ void PrimaryGeneratorAction::SetSourceDiameter(G4double newDiameter){
 	Radius = newDiameter/2.;
 }
 
+void PrimaryGeneratorAction::SetSourceSigmaBeam(G4double newSigmaBeam){
+	SigmaBeam = newSigmaBeam;
+}
 void PrimaryGeneratorAction::SetSourceType(G4int newType)
 {
 	if (newType <= 13 && newType >= 0)

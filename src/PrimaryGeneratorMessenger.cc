@@ -60,6 +60,12 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(PrimaryGeneratorAction* Gun
   fSourceDiameter->SetDefaultValue(5.*mm);
   fSourceDiameter->AvailableForStates(G4State_Idle);
 
+  fSourceSigmaBeam = new G4UIcmdWithADoubleAndUnit("/ULALAP/gun/sourceSigmaBeam",this);
+  fSourceSigmaBeam->SetGuidance("Set Source Beam Sigma or side");
+  fSourceSigmaBeam->SetParameterName("fSigmaBeam",true);
+  fSourceSigmaBeam->SetDefaultValue(100.*mrad);
+  fSourceSigmaBeam->AvailableForStates(G4State_Idle);
+
   //Position of the source, taking the center as reference
   fSourcePosition = new G4UIcmdWith3VectorAndUnit("/ULALAP/gun/position",this);
   fSourcePosition->SetGuidance("Set starting position of the particle.");
@@ -132,6 +138,7 @@ PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger()
   delete fSourcePositionBi2;
   delete fSourceShape;
   delete fSourceDiameter;
+  delete fSourceSigmaBeam;
   delete fSourceDirection;
   //delete fAction;//debug
 }
@@ -160,6 +167,9 @@ void PrimaryGeneratorMessenger::SetNewValue(G4UIcommand* command, G4String newVa
   }
   if(command == fSourceDiameter){
   	fAction->SetSourceDiameter(fSourceDiameter->GetNewDoubleValue(newValue));
+  }
+  if(command == fSourceSigmaBeam){
+  	fAction->SetSourceSigmaBeam(fSourceSigmaBeam->GetNewDoubleValue(newValue));
   }
   if(command == fSourcePosition){
   	fAction->SetSourcePosition(fSourcePosition->GetNew3VectorValue(newValue));

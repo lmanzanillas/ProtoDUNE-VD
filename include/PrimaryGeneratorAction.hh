@@ -51,6 +51,7 @@ public:
 	void  SetSourcePositionBi1(G4ThreeVector newValue);
 	void  SetSourcePositionBi2(G4ThreeVector newValue);
 	void  SetSourceDiameter(G4double newValue);
+	void  SetSourceSigmaBeam(G4double newValue);
 	void  SetSourceBoxXYZ(G4ThreeVector newValue);
 	void  SetSourceHalfZ(G4double newValue);
 	void  SetCentreCoords(G4ThreeVector coordsOfCentre);
@@ -84,6 +85,7 @@ private:
 	G4double size_source_y;
 	G4double size_source_z;
 	G4double Radius;
+	G4double SigmaBeam;
 	G4ParticleDefinition* fParticleDefinition;
 	G4String fParticleName;
 	PrimaryGeneratorMessenger* fPrimaryMessenger;

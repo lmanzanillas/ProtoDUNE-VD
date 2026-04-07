@@ -38,6 +38,7 @@ class PrimaryGeneratorMessenger: public G4UImessenger
     G4UIcmdWith3Vector*		fSourceDirection;
     G4UIcmdWithAString* 	fSourceShape;
     G4UIcmdWithADoubleAndUnit* 	fSourceDiameter;
+    G4UIcmdWithADoubleAndUnit* 	fSourceSigmaBeam;
     G4UIcmdWithADoubleAndUnit* 	fSourceHalfZ;
     G4UIcommand* 	fSourceIon_ZA;
     G4UIparameter* parA;
