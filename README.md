@@ -2,9 +2,10 @@
 
 ## Overview
 
-This Geant4 simulation project, developed at LAPP, is designed to study low-energy backgrounds in underground liquid argon detectors. A 10 kton DUNE-like module is simulated for this purpose.
+This Geant4 simulation project, developed at LAPP, is designed to study low-energy backgrounds in underground liquid argon detectors. 
+The geometry of ProtoDUNE-VD and pulsed neutron source is simulated for this purpose.
 
-![Alt text](images/10kton_LAr_module.png)
+![Alt text](images/ProtoDUNE_VD_simus.png)
 
 ---
 
@@ -15,24 +16,6 @@ This Geant4 simulation project, developed at LAPP, is designed to study low-ener
 - It is highly recommended to use this project on a cluster (e.g., lxplus, MUST, CC).
 - If you wish to run the simulation locally, you must first install the Geant4 software on your system.
 
-### Setting Up in MUST
-
-To set up the required environment in the MUST cluster:
-
-1. Create a `setup_g4.sh` file with the following content:
-
-   ```bash
-   export MAMBA_ROOT_PREFIX=/mustfs/CONTAINERS/conda/neutrino/manzanilla
-   eval "$(/grid_sw/soft-dev-lapp/LAPPSL7/x86_64/micromamba/latest/micromamba shell hook -s posix)"
-   micromamba activate geant4
-   export CMAKE_PREFIX_PATH=/mustfs/CONTAINERS/conda/neutrino/manzanilla/envs/geant4/
-   ```
-
-2. At the start of each session, run:
-
-   ```bash
-   source setup_g4.sh
-   ```
 ### Setting Up in CC IN2P3
 
 To set up the required environment in the CC IN2P3 cluster:
@@ -40,11 +23,14 @@ To set up the required environment in the CC IN2P3 cluster:
 1. Create a `setup_g4.sh` file with the following content:
 
    ```bash
-   module add Modelisation/geant4/11.2.1
-   module add Production/cmake/3.29.2
-   module load Analysis/root/6.30.06
-   module add Compilers/gcc/13.2.0
+	module add Modelisation/geant4/11.4.0
+	module add Production/cmake/3.29.2
+	module load Analysis/root/6.30.06
+	module add Compilers/gcc/13.2.0
+	export G4NEUTRONHPDATA=/sps/lbno/lmanzani/ENDF-VIII.0
+	export G4NUDEXLIBDATA=/sps/lbno/lmanzani/G4NUDEXLIB1.0
    ```
+The G4NEUTRONHPDATA and G4NUDEXLIBDATA allows to have precission simulations based on data for neutron cross sections interactions as well as for gamma cascades from neutron capture
 
 2. At the start of each session, run:
 
@@ -82,17 +68,14 @@ To set up the environment in LXPLUS:
 
 ### Key Dimensions (in cm)
 
-- **Cavern box (filled with air):** Starts at x = ±3499.4, y = ±1154.4, z = ±1099.4.
-- **Shielding start:** x = ±3284.4, y = ±939.4, z = ±884.4.
-- **Shielding end (varies with thickness):** x = ±3294.4, y = ±949.4, z = ±894.4.
-- **LAr volume:** Ends at x = ±3100.0, y = ±755.0, z = ±700.0.
+- **Active LAr TPC volume:** Ends at x = ±343.0, y = ±340.0, z = [0.0, 300.0]
 
 ### Placement of External Sources
 
 To simulate neutrons from outside:
 
-- Ensure your source coordinates are between the shielding and the cavern walls.
-- Example for x-coordinates: Choose values between 3295 and 3499 (adjust based on shielding thickness).
+- Ensure your source coordinates are outside the cryostat.
+- Example for x-coordinates: Choose values larger than 600 cm (adjust based on geometry).
 
 ---
 
