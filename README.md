@@ -46,14 +46,19 @@ To set up the environment in LXPLUS:
 1. Create a `setup_geant4.sh` file with the following content:
 
    ```bash
-   # Modules:
-   source /cvmfs/sft.cern.ch/lcg/contrib/gcc/12/x86_64-centos9/setup.sh # Set up the compiler
-   source /cvmfs/geant4.cern.ch/geant4/11.1/x86_64-centos9-gcc12-optdeb-MT/CMake-setup.sh # Set up Geant4
-   export CXX=`which g++` # Tell CMake about the compiler used
-   export CC=`which gcc`
+	# Load GCC 15
+	source /cvmfs/sft.cern.ch/lcg/contrib/gcc/15/x86_64-el9/setup.sh
 
-   # ROOT library
-   export LD_LIBRARY_PATH=$BOOST/lib:$LD_LIBRARY_PATH:$ROOT6/lib:$GEANT4/lib64:/usr/lib64/:/usr/lib
+	# Load LCG stack containing CLHEP
+	source /cvmfs/sft.cern.ch/lcg/views/LCG_109/x86_64-el9-gcc15-opt/setup.sh
+
+	# Load Geant4 CMake environment
+	source /cvmfs/geant4.cern.ch/geant4/11.4/x86_64-el9-gcc15-optdeb-MT/CMake-setup.sh
+
+	#NUDEX data
+	export G4NEUTRONHPDATA=/afs/cern.ch/work/l/lmanzani/ENDF-VIII.0
+	export G4NUDEXLIBDATA=/afs/cern.ch/work/l/lmanzani/G4NUDEXLIB1.0
+
    ```
 
 2. At the start of each session, run:
