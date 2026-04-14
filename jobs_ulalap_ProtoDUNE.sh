@@ -1,27 +1,29 @@
 #!/bin/sh
 dir_type=3
+sigmaBeam=100
 P_LIST=QGSP_BIC_HP
-for job_number in {1..20..1} 
+for job_number in {1..10..1} 
 do
 	echo ${job_number}
 	cd /pbs/home/l/lmanzani/ProtoDUNE-VD/build/
-	FILE_MAC="PNS_mac_${job_number}.mac"
+	FILE_MAC="PNS_mac_${job_number}_sigma_${sigmaBeam}.mac"
 	/bin/cat <<EOM >$FILE_MAC
 
 /ULALAP/det/setOutputDirectory /sps/lbno/lmanzani/ProtoDUNE/
-/ULALAP/det/setSetupName ${P_LIST}_file_${job_number}_dir_${dir_type}_200mrad
+/ULALAP/det/setSetupName ${P_LIST}_file_${job_number}_dir_${dir_type}_${sigmaBeam}mrad
 /process/had/particle_hp/use_photo_evaporation true
 /process/had/particle_hp/do_not_adjust_final_state false
 /process/had/particle_hp/skip_missing_isotopes true
 
 #direction type, if 1 isotropic
 /ULALAP/gun/sourceDirectionType ${dir_type}
+/ULALAP/gun/sourceSigmaBeam ${sigmaBeam}.0 mrad
 
 #direction of the source
 /ULALAP/gun/direction 0 1 0
 
 #position of the center of the source in cm for x y z
-/ULALAP/gun/position -75 -600 150
+/ULALAP/gun/position -30 -600 190
 
 #choise of the source
 /ULALAP/gun/sourceType 8
@@ -38,7 +40,7 @@ do
 
 
 EOM
-	FILEJOB="job_PNS_${job_number}.sh"
+	FILEJOB="job_PNS_${job_number}_sigma_${sigmaBeam}.sh"
 	
         /bin/cat <<EOM >$FILEJOB
 #!/bin/bash
