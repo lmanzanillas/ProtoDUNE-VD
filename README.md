@@ -30,7 +30,8 @@ To set up the required environment in the CC IN2P3 cluster:
 	export G4NEUTRONHPDATA=/sps/lbno/lmanzani/ENDF-VIII.0
 	export G4NUDEXLIBDATA=/sps/lbno/lmanzani/G4NUDEXLIB1.0
    ```
-The G4NEUTRONHPDATA and G4NUDEXLIBDATA allows to have precission simulations based on data for neutron cross sections interactions as well as for gamma cascades from neutron capture
+The G4NEUTRONHPDATA and G4NUDEXLIBDATA allows to have precission simulations based on data for neutron cross sections interactions as well as for gamma cascades from neutron capture.
+You need to download these files from geant4 repository.
 
 2. At the start of each session, run:
 
@@ -60,6 +61,8 @@ To set up the environment in LXPLUS:
 	export G4NUDEXLIBDATA=/afs/cern.ch/work/l/lmanzani/G4NUDEXLIB1.0
 
    ```
+The G4NEUTRONHPDATA and G4NUDEXLIBDATA allows to have precission simulations based on data for neutron cross sections interactions as well as for gamma cascades from neutron capture.
+You need to download these files from geant4 repository.
 
 2. At the start of each session, run:
 
