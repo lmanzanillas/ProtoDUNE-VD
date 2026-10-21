@@ -296,11 +296,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
 	switch (particleType) {
 		case 0:
-			fParticleGun->SetParticleDefinition(particleTable->FindParticle("gamma"));
-			fParticleGun->SetParticleEnergy(fSourceEnergy);
-			fParticleGun->SetParticlePosition(position);
-			fParticleGun->SetParticleMomentumDirection(direction);
-			fParticleGun->GeneratePrimaryVertex(anEvent);
+			//Two Bi source
+			fAction0->GeneratePrimaries(anEvent);
  			break;
 		case 1:
 			//ion source with Z and A passed by command

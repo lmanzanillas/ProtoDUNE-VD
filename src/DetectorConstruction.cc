@@ -398,7 +398,8 @@ Defines detector sensitivities and properties.
 */
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
-   fParser.Read("../input_files/protodunevd_v5_ggd.gdml");
+   //fParser.Read("../input_files/protodunevd_v5_ggd.gdml");
+   fParser.Read("../input_files/PDVD_with_PNS.gdml");
 
    G4LogicalVolume* tpcLV = G4LogicalVolumeStore::GetInstance()->GetVolume("volSteelSupport");
    if(tpcLV) {

@@ -30,9 +30,9 @@
 // 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-#include "PrimaryGeneratorAction0.hh"
-#include "PrimaryGeneratorAction.hh"
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo..........
 
+#include "PrimaryGeneratorAction0.hh"
 #include "G4Event.hh"
 #include "G4ParticleGun.hh"
 #include "G4ParticleTable.hh"
@@ -41,110 +41,50 @@
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-// Initialize the vector containing the information about probabilities
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........
 PrimaryGeneratorAction0::PrimaryGeneratorAction0(G4ParticleGun* gun)
-    : fParticleGun(gun) { 
-    InitFunction();
+    : fParticleGun(gun) {
+    // Set neutron energy (change this to your desired value)
+    fNeutronEnergy = 2.45 * MeV;  // Example: 2.5 MeV D-T neutrons
     position = G4ThreeVector(0., 0., 0.);
     GeneratePosition();
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-// Determine the next level
-G4int PrimaryGeneratorAction0::GetNextLevel(std::vector<G4double> vec_probs, std::vector<G4int> vec_levels) {
-    if (vec_probs.empty() || vec_probs.size() != vec_levels.size()) {
-        G4cerr << "Error: Probability and level vectors are mismatched or empty!" << G4endl;
-        return -1;
-    }
-
-    G4double rand_toy = G4UniformRand();
-    G4int next_level = -1;
-    G4double min = 0.0;
-
-    for (unsigned int i = 0; i < vec_probs.size(); ++i) {
-        if (rand_toy >= min && rand_toy < vec_probs[i]) {
-            next_level = i;
-            break;
-        }
-        min = vec_probs[i];
-    }
-
-    if (next_level < 0 || next_level >= static_cast<G4int>(vec_levels.size())) {
-        G4cerr << "Error: Invalid next level index!" << G4endl;
-        return -1;
-    }
-
-    return vec_levels[next_level];
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-// Store energy levels and probabilities
-void PrimaryGeneratorAction0::InitFunction() { 
-    vec_E_levels = {0.0, 1409.84, 1611.28, 2490.17, 3518.1, 3937.1, 3981.2, 4444.5, 4573.4, 
-                    4634.8, 5089.53, 6579.9, 6821.4, 8791.2};
-    vec_probs = {{0.0},
-                 {1.0},
-                 {1.0},
-                 {0.0698, 1.0},
-                 {0.2121, 0.3333, 0.9394, 1.0},
-                 {0.1604, 1.0},
-                 {1.0},
-                 {0.9091, 1.0},
-                 {1.0},
-                 {0.1736, 1.0},
-                 {0.2806, 1.0},
-                 {1.0},
-                 {1.0},
-                 {0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0}};
-    vec_levels = {{1}, {1}, {1}, {3, 1}, {4, 3, 2, 1}, {2, 1}, {1}, {4, 1}, 
-                  {1}, {4, 2}, {4, 2}, {8}, {9}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}};
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-// Generate random position
-void PrimaryGeneratorAction0::GeneratePosition() {  
-    G4double xg = (G4UniformRand() - 0.5) * 60. * m;
-    G4double yg = (G4UniformRand() - 0.5) * 10. * m;
-    G4double zg = (G4UniformRand() - 0.5) * 10. * m;
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........
+void PrimaryGeneratorAction0::GeneratePosition() {
+    G4double xg = -20 * cm + (G4UniformRand() - 0.5) * cm;
+    G4double yg = -580 * cm + (G4UniformRand() - 0.5) * cm;
+    G4double zg = 190 * cm + (G4UniformRand() - 0.5) * cm;
     position.set(xg, yg, zg);
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-// Generate primary vertex
-G4PrimaryVertex* PrimaryGeneratorAction0::GenerateVertex(G4double Eg) {
-    G4double theta = 2. * pi * G4UniformRand();
-    G4double phi = acos(2. * G4UniformRand() - 1.);
-    G4double ux = sin(phi) * cos(theta);
-    G4double uy = sin(phi) * sin(theta);
-    G4double uz = cos(phi);
-
-    G4ThreeVector directionG(ux, uy, uz);
-    G4PrimaryVertex* vertexG = new G4PrimaryVertex(position, 0. * s);
-
-    G4ParticleDefinition* particleDefinition = G4ParticleTable::GetParticleTable()->FindParticle("gamma");
-    G4PrimaryParticle* particleG = new G4PrimaryParticle(particleDefinition);
-    particleG->SetMomentumDirection(directionG);
-    particleG->SetKineticEnergy(Eg * keV);
-    vertexG->SetPrimary(particleG);
-    return vertexG;
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-// Generate primaries
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........
 void PrimaryGeneratorAction0::GeneratePrimaries(G4Event* anEvent) {
-    G4int n = vec_probs.size() - 1; 
-    G4int new_level = GetNextLevel(vec_probs[n], vec_levels[n]);
-    if (new_level < 0) return;
+    const G4double pulseDuration = 400. * microsecond;
+    const G4int neutronsPerPulse = 100;  // Number of neutrons in the pulse
 
-    while (new_level > 0) {
-        G4int previous_level = new_level;
-        new_level = GetNextLevel(vec_probs[previous_level], vec_levels[previous_level]);
-        if (new_level < 0) break;
+    for (G4int i = 0; i < neutronsPerPulse; ++i) {
+        G4double emissionTime = G4UniformRand() * pulseDuration;
 
-        G4double Eg = vec_E_levels[previous_level] - vec_E_levels[new_level];
-        myVertex = GenerateVertex(Eg);
-        anEvent->AddPrimaryVertex(myVertex);
+        G4double theta = 2. * pi * G4UniformRand();
+        G4double phi = acos(2. * G4UniformRand() - 1.);
+        G4double ux = sin(phi) * cos(theta);
+        G4double uy = sin(phi) * sin(theta);
+        G4double uz = cos(phi);
+        G4ThreeVector direction(ux, uy, uz);
+
+        // Re-generate position for each neutron (optional)
+        GeneratePosition();
+
+        G4PrimaryVertex* vertex = new G4PrimaryVertex(position, emissionTime);
+
+        G4ParticleDefinition* particleDefinition =
+            G4ParticleTable::GetParticleTable()->FindParticle("neutron");
+        G4PrimaryParticle* particle = new G4PrimaryParticle(particleDefinition);
+        particle->SetMomentumDirection(direction);
+        particle->SetKineticEnergy(fNeutronEnergy);
+
+        vertex->SetPrimary(particle);
+        anEvent->AddPrimaryVertex(vertex);
     }
 }
-

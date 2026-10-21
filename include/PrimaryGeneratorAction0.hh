@@ -30,6 +30,8 @@
 // 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo...... 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #ifndef PrimaryGeneratorAction0_h
 #define PrimaryGeneratorAction0_h 1
@@ -37,7 +39,6 @@
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "G4PrimaryVertex.hh"
 #include "globals.hh"
-#include <vector>
 
 class G4ParticleGun;
 class G4Event;
@@ -47,29 +48,19 @@ class G4Event;
 class PrimaryGeneratorAction0
 {
   public:
-    PrimaryGeneratorAction0(G4ParticleGun*);    
+    PrimaryGeneratorAction0(G4ParticleGun*);
    ~PrimaryGeneratorAction0() = default;
 
   public:
     void GeneratePrimaries(G4Event*);
     void GeneratePosition();
-    G4PrimaryVertex* GenerateVertex(G4double);
-    G4int GetNextLevel(std::vector<G4double> vec_probs,std::vector<G4int> vec_levels);
 
   private:
     G4ParticleGun*  fParticleGun = nullptr;
     G4ThreeVector position;
-
-    std::vector<G4double> vec_E_levels;
-    std::vector<std::vector<G4double>> vec_probs;
-    std::vector<std::vector<G4int>> vec_levels;
-    G4PrimaryVertex* myVertex;
-
-  private:
-    void InitFunction();
+    G4double fNeutronEnergy;  // Neutron kinetic energy (e.g., 2.5 MeV)
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-

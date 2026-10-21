@@ -119,7 +119,7 @@ void SteppingAction::UserSteppingAction(const G4Step* theStep) {
         G4String process = (*fSecondary)[lp1]->GetCreatorProcess()->GetProcessName();
         energy = (*fSecondary)[lp1]->GetKineticEnergy();
 
-        if (particleDefi == G4Gamma::Definition()) {
+        if (particleDefi == G4Gamma::Definition() || particleDefi == G4Alpha::Definition()) {
 	    //G4cout<<process<<G4endl;
             if (process == "RadioactiveDecay" || process == "nCapture" || process == "nCaptureHP") {
                 gamma_vector.push_back(energy / keV);

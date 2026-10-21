@@ -1,6 +1,6 @@
 #!/bin/sh
-dir_type=3
-sigmaBeam=100
+dir_type=1
+sigmaBeam=10
 P_LIST=QGSP_BIC_HP
 for job_number in {1..10..1} 
 do
@@ -17,16 +17,16 @@ do
 
 #direction type, if 1 isotropic
 /ULALAP/gun/sourceDirectionType ${dir_type}
-/ULALAP/gun/sourceSigmaBeam ${sigmaBeam}.0 mrad
+#/ULALAP/gun/sourceSigmaBeam ${sigmaBeam}.0 mrad
 
 #direction of the source
 /ULALAP/gun/direction 0 1 0
 
 #position of the center of the source in cm for x y z
-/ULALAP/gun/position -30 -600 190
+/ULALAP/gun/position -20 -550 190
 
 #choise of the source
-/ULALAP/gun/sourceType 8
+/ULALAP/gun/sourceType 0
 /ULALAP/gun/sourceEnergy 2.45 MeV
 
 #geometry of the source
@@ -36,7 +36,7 @@ do
 /ULALAP/gun/BoxXYZ 1 1 1
 
 #number of events
-/run/beamOn 500000
+/run/beamOn 100000
 
 
 EOM
