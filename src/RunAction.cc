@@ -128,17 +128,16 @@ void RunAction::BeginOfRunAction(const G4Run* aRun) {
     fMan->CreateNtupleDColumn("z");
     fMan->FinishNtuple();
 
-    fMan->CreateNtuple("Secondaries", "Secondaries");
-    fMan->CreateNtupleIColumn("EventID");
-    fMan->CreateNtupleSColumn("creator");
-    fMan->CreateNtupleIColumn("atNumber");
-    fMan->CreateNtupleIColumn("atMass");
-    fMan->CreateNtupleIColumn("pdgCode");
-    fMan->CreateNtupleDColumn("energy");
-    fMan->CreateNtupleDColumn("xn");
-    fMan->CreateNtupleDColumn("yn");
-    fMan->CreateNtupleDColumn("zn");
-    fMan->CreateNtupleDColumn("tn");
+    fMan->CreateNtuple("NeutronCapture", "Neutron capture information");
+    fMan->CreateNtupleIColumn("EventID");     // 0
+    fMan->CreateNtupleSColumn("volume");      // 1  volume where the capture occurs
+    fMan->CreateNtupleIColumn("atNumber");    // 2  daughter Z
+    fMan->CreateNtupleIColumn("atMass");      // 3  daughter A
+    fMan->CreateNtupleDColumn("energy");      // 4  neutron kinetic energy before capture [eV]
+    fMan->CreateNtupleDColumn("xn");          // 5  [cm]
+    fMan->CreateNtupleDColumn("yn");          // 6  [cm]
+    fMan->CreateNtupleDColumn("zn");          // 7  [cm]
+    fMan->CreateNtupleDColumn("tn");          // 8  [us]
     fMan->FinishNtuple();
     
     fMan->CreateNtuple("NeutronkinE", "NeutronKinE");

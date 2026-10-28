@@ -53,36 +53,31 @@ void SteppingAction::UserSteppingAction(const G4Step* theStep) {
 
     //G4cout<<"thePrePV->GetName(): "<<thePrePV->GetName()<<G4endl;
 
-    // Check conditions for specific processing
-    if (theTrack->GetCurrentStepNumber() == 1 &&
-        theTrack->GetCreatorProcess() &&
-        thePrePV && thePrePV->GetName() == "volTPCActive_PV" &&
-        particleDef->GetParticleType() == "nucleus" &&
-        particleDef->GetParticleSubType() == "generic") {
+    //Neutron capture information
+    if (particleDef == G4Neutron::Definition()) {
+    	const G4VProcess* proc = theStep->GetPostStepPoint()->GetProcessDefinedStep();
+	if (proc && (proc->GetProcessName() == "nCapture" ||
+             proc->GetProcessName() == "nCaptureHP")){
 
-        // Get additional particle details
-        G4int atNumber = particleDef->GetAtomicNumber();
-        G4int atMass = particleDef->GetAtomicMass();
-        G4double time_nuclei = theStep->GetPostStepPoint()->GetGlobalTime() / us;
-        G4ThreeVector position_nuclei = theStep->GetPostStepPoint()->GetPosition();
+        	G4String volName = thePrePV ? thePrePV->GetName() : "none";
+	        G4double eNeutron = theStep->GetPreStepPoint()->GetKineticEnergy() / eV;
+	        G4ThreeVector pos = theStep->GetPostStepPoint()->GetPosition();
+	        G4double t = theStep->GetPostStepPoint()->GetGlobalTime() / us;
 
-        // Get process creator name if available
-        if (theTrack->GetCreatorProcess()) {
-            processCreator = theTrack->GetCreatorProcess()->GetProcessName();
-        }
+        	// Daughter nucleus from the secondaries produced in this step
+	        G4int Z = 0, A = 0;
+        	const auto* secs = theStep->GetSecondaryInCurrentStep();
+	        for (const auto* sec : *secs) {
+        	    const G4ParticleDefinition* def = sec->GetDefinition();
+	            if (def->GetParticleType() == "nucleus") {
+        	        Z = def->GetAtomicNumber();
+                	A = def->GetAtomicMass();
+	            }
+       	 	}
 
-        // Pass information to event action for storage
-        fEventAction->AddInfoSecondaries(
-            processCreator,
-            atNumber,
-            atMass,
-            pdgCode,
-            energy,
-            position_nuclei.x() / cm,
-            position_nuclei.y() / cm,
-            position_nuclei.z() / cm,
-            time_nuclei
-        );
+        	fEventAction->AddInfoNeutronCapture(volName, Z, A, eNeutron,
+                                            pos.x() / cm, pos.y() / cm, pos.z() / cm, t);
+    	}
     }
 
     // Get post-step process and other step-related properties

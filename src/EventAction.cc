@@ -92,19 +92,18 @@ void EventAction::AddInfo(G4double xF, G4double yF, G4double zF, G4double depE, 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 // Add Secondary Info
-void EventAction::AddInfoSecondaries(G4String creator, G4int atNumber, G4int atMass, G4int pdgCode,
-                                     G4double energy, G4double xn, G4double yn, G4double zn, G4double tn) {
+void EventAction::AddInfoNeutronCapture(G4String volume, G4int Z, G4int A, G4double eNeutron,
+                                        G4double x, G4double y, G4double z, G4double t) {
     auto analysisManager = G4AnalysisManager::Instance();
     analysisManager->FillNtupleIColumn(4, 0, eventNumber);
-    analysisManager->FillNtupleSColumn(4, 1, creator);
-    analysisManager->FillNtupleIColumn(4, 2, atNumber);
-    analysisManager->FillNtupleIColumn(4, 3, atMass);
-    analysisManager->FillNtupleIColumn(4, 4, pdgCode);
-    analysisManager->FillNtupleDColumn(4, 5, energy);
-    analysisManager->FillNtupleDColumn(4, 6, xn);
-    analysisManager->FillNtupleDColumn(4, 7, yn);
-    analysisManager->FillNtupleDColumn(4, 8, zn);
-    analysisManager->FillNtupleDColumn(4, 9, tn);
+    analysisManager->FillNtupleSColumn(4, 1, volume);
+    analysisManager->FillNtupleIColumn(4, 2, Z);
+    analysisManager->FillNtupleIColumn(4, 3, A);
+    analysisManager->FillNtupleDColumn(4, 4, eNeutron);
+    analysisManager->FillNtupleDColumn(4, 5, x);
+    analysisManager->FillNtupleDColumn(4, 6, y);
+    analysisManager->FillNtupleDColumn(4, 7, z);
+    analysisManager->FillNtupleDColumn(4, 8, t);
     analysisManager->AddNtupleRow(4);
 }
 
