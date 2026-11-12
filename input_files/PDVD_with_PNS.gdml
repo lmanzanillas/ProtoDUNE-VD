@@ -911,8 +911,9 @@
       <D value="1e-25"/>
       <fraction ref="Air" n="1.0"/>
     </material>
-    <material name="LAr" formula="">
-      <D value="1.39"/>
+      <material name="LAr" formula="">
+      <D value="1.3919"/>
+      <T unit="K" value="87.3"/>
       <composite ref="Argon" n="1"/>
     </material>
     <material name="GAr" formula="">
