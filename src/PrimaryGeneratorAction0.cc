@@ -61,7 +61,7 @@ void PrimaryGeneratorAction0::GeneratePosition() {
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........
 void PrimaryGeneratorAction0::GeneratePrimaries(G4Event* anEvent) {
     const G4double pulseDuration = 400. * microsecond;
-    const G4int neutronsPerPulse = 100;  // Number of neutrons in the pulse
+    const G4int neutronsPerPulse = 4000;  // Number of neutrons in the pulse
 
     for (G4int i = 0; i < neutronsPerPulse; ++i) {
         G4double emissionTime = G4UniformRand() * pulseDuration;
