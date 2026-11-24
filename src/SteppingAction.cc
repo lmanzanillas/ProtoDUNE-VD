@@ -126,7 +126,43 @@ void SteppingAction::UserSteppingAction(const G4Step* theStep) {
         fEventAction->AddInfoCaptureGammas(gamma_vector);
     }
 
+
+    if (thePrePV && edepStep > 0.) {
+
+      G4String volumeName = thePrePV->GetName();
+      G4int region = -1;
+
+      if (volumeName == "volTPCActive_PV") {
+        region = 0;  // Active TPC
+      }
+      else if (volumeName == "volCryostat_PV") {
+        region = 1;  // Surrounding LAr
+      }
+
+      if (region >= 0) {
+
+        G4double time_dep = theStep->GetPostStepPoint()->GetGlobalTime() / us;
+
+        fEventAction->AddInfo(
+            thePrePoint->GetPosition().x() / cm,
+            thePrePoint->GetPosition().y() / cm,
+            thePrePoint->GetPosition().z() / cm,
+            edepStep,
+            time_dep,
+            pdgCode,
+            region
+            );
+      }
+   }
+
+    //For debugs
+    //if (thePrePV && edepStep > 0.) {
+    //   G4cout << "Volume: " << thePrePV->GetName()
+    //          << " | Edep: " << edepStep / keV << " keV"
+    //       << G4endl;
+    //}
     // Store energy deposition for target_1
+    /*
     if (thePrePV && thePrePV->GetName() == "volTPCActive_PV") {
         G4double time_dep = theStep->GetPostStepPoint()->GetGlobalTime() / us;
         fEventAction->AddInfo(
@@ -137,7 +173,8 @@ void SteppingAction::UserSteppingAction(const G4Step* theStep) {
             time_dep,
 	    pdgCode
         );
-    }
+     }
+    */
 
 
     /* -------------   particle-entry filter (neutrons + gammas, including born inside)   -------------------- */

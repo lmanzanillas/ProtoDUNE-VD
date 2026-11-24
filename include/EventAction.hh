@@ -21,7 +21,7 @@ class EventAction : public G4UserEventAction
 
     virtual void BeginOfEventAction(const G4Event* event);
     virtual void EndOfEventAction(const G4Event* event);
-    virtual void AddInfo(G4double xF, G4double yF, G4double zF, G4double depE, G4double t_depE, G4int pdgCode);
+    virtual void AddInfo(G4double xF, G4double yF, G4double zF, G4double depE, G4double t_depE, G4int pdgCode, G4int volum);
     void AddInfoNeutronCapture(G4String volume, G4int Z, G4int A, G4double eNeutron,
                            G4double x, G4double y, G4double z, G4double t);
     virtual void AddInfoCaptureGammas(std::vector<G4double> gamma_vector);

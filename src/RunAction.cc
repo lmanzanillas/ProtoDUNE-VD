@@ -109,6 +109,7 @@ void RunAction::BeginOfRunAction(const G4Run* aRun) {
     fMan->CreateNtupleDColumn("E");
     fMan->CreateNtupleDColumn("t");
     fMan->CreateNtupleIColumn("pdgCode");
+    fMan->CreateNtupleIColumn("volumeID");
     fMan->FinishNtuple();
 
     fMan->CreateNtuple("Gammas", "Gammas");
